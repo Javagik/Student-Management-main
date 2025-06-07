@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block breadcrumbs %}
+<li class="breadcrumb-item"><a href="{% url 'main:student_list' %}">Students</a></li>
+{% if form.instance.pk %}
+<li class="breadcrumb-item"><a href="{% url 'main:student_detail' form.instance.pk %}">{{ form.instance }}</a></li>
+<li class="breadcrumb-item active">Edit</li>
+{% else %}
+<li class="breadcrumb-item active">Add Student</li>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title mb-0">{{ title }}</h3>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-success"><i class="fas fa-save me-2"></i>Save Student</button>
+                    <a href="{% url 'main:student_list' %}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %} 

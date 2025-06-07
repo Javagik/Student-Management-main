@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block breadcrumbs %}
+<li class="breadcrumb-item"><a href="{% url 'main:faculty_adviser_list' %}">Faculty Advisers</a></li>
+<li class="breadcrumb-item active">{{ adviser.name }}</li>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0"><i class="fas fa-chalkboard-teacher me-2"></i> {{ adviser.name }}</h1>
+        <div>
+            <a href="{% url 'main:faculty_adviser_update' adviser.pk %}" class="btn btn-warning"><i class="fas fa-edit"></i> Edit</a>
+            <a href="{% url 'main:faculty_adviser_delete' adviser.pk %}" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</a>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="card-title mb-0">Adviser Information</h3>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-4">Name:</dt>
+                <dd class="col-sm-8">{{ adviser.name }}</dd>
+
+                <dt class="col-sm-4">Email:</dt>
+                <dd class="col-sm-8">{{ adviser.email }}</dd>
+
+                <dt class="col-sm-4">Phone Number:</dt>
+                <dd class="col-sm-8">{{ adviser.phone_number|default:"N/A" }}</dd>
+
+                <dt class="col-sm-4">Office Location:</dt>
+                <dd class="col-sm-8">{{ adviser.office_location|default:"N/A" }}</dd>
+
+                <dt class="col-sm-4">Department:</dt>
+                <dd class="col-sm-8">
+                    {% if adviser.department %}
+                        <a href="{% url 'main:department_detail' adviser.department.pk %}">{{ adviser.department.name }}</a>
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title mb-0">Advised Students</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped align-middle">
+                    <thead>
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Name</th>
+                            <th>Major</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in adviser.advised_students.all %}
+                        <tr>
+                            <td>{{ student.student_id }}</td>
+                            <td>{{ student.first_name }} {{ student.last_name }}</td>
+                            <td>{{ student.major|default:"N/A" }}</td>
+                            <td class="text-end">
+                                <a href="{% url 'main:student_detail' student.pk %}" class="btn btn-sm btn-outline-info" title="View Student">
+                                    <i class="fas fa-user"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center py-4">
+                                <div class="text-muted">
+                                    <i class="fas fa-user-graduate fa-2x mb-3"></i>
+                                    <p>No students advised by this faculty member.</p>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

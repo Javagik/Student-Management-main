@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Dashboard - {{ student }}{% endblock %}
+
+{% block breadcrumbs %}
+<li class="breadcrumb-item"><a href="{% url 'main:student_list' %}">Students</a></li>
+<li class="breadcrumb-item active">{{ student }}</li>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Student Profile Card -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="card-title mb-0">Student Profile</h3>
+                    <div>
+                        <a href="{% url 'main:student_update' student.id %}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-edit"></i> Edit Profile
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <h5 class="border-bottom pb-2">Personal Information</h5>
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <p class="mb-1"><small class="text-muted">Student ID</small></p>
+                                <p class="fw-bold">{{ student.student_id }}</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="mb-1"><small class="text-muted">Status</small></p>
+                                <span class="badge {% if student.is_active %}bg-success{% else %}bg-danger{% endif %}">
+                                    {{ student.is_active|yesno:"Active,Inactive" }}
+                                </span>
+                            </div>
+                            <div class="col-12">
+                                <p class="mb-1"><small class="text-muted">Full Name</small></p>
+                                <p class="fw-bold">{{ student.first_name }} {{ student.last_name }}</p>
+                            </div>
+                            <div class="col-12">
+                                <p class="mb-1"><small class="text-muted">Email</small></p>
+                                <p class="fw-bold">{{ student.email }}</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="mb-1"><small class="text-muted">Date of Birth</small></p>
+                                <p class="fw-bold">{{ student.date_of_birth }}</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="mb-1"><small class="text-muted">Gender</small></p>
+                                <p class="fw-bold">{{ student.gender }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <h5 class="border-bottom pb-2">Contact Information</h5>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <p class="mb-1"><small class="text-muted">Address</small></p>
+                                <p class="fw-bold">{{ student.address }}</p>
+                            </div>
+                            <div class="col-12">
+                                <p class="mb-1"><small class="text-muted">Phone</small></p>
+                                <p class="fw-bold">{{ student.phone_number }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enrolled Subjects -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="card-title mb-0">Enrolled Subjects</h3>
+                    <a href="{% url 'main:enrollment_create' %}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-plus"></i> Enroll in Subject
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Subject Code</th>
+                                    <th>Subject Name</th>
+                                    <th>Instructor</th>
+                                    <th>Credits</th>
+                                    <th>Status</th>
+                                    <th class="text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for enrollment in enrollments %}
+                                <tr>
+                                    <td>{{ enrollment.subject.subject_code }}</td>
+                                    <td>{{ enrollment.subject.subject_name }}</td>
+                                    <td>{{ enrollment.subject.instructor }}</td>
+                                    <td>{{ enrollment.subject.credits }}</td>
+                                    <td>
+                                        <span class="badge {% if enrollment.status == 'active' %}bg-success{% else %}bg-warning{% endif %}">
+                                            {{ enrollment.get_status_display }}
+                                        </span>
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="btn-group">
+                                            <a href="{% url 'main:subject_detail' enrollment.subject.id %}" class="btn btn-sm btn-outline-info" title="View Details">
+                                                <i class="fas fa-info-circle"></i>
+                                            </a>
+                                            <a href="{% url 'main:enrollment_update' enrollment.id %}" class="btn btn-sm btn-outline-primary" title="Edit Enrollment">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="6" class="text-center py-4">
+                                        <div class="text-muted">
+                                            <i class="fas fa-book fa-2x mb-3"></i>
+                                            <p>No subjects enrolled.</p>
+                                            <a href="{% url 'main:enrollment_create' %}" class="btn btn-primary btn-sm">
+                                                <i class="fas fa-plus"></i> Enroll in a Subject
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grades Overview -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="card-title mb-0">Grades Overview</h3>
+                    <a href="{% url 'main:grade_create' student.id %}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Grade
+                    </a>
+                </div>
+                <div class="card-body">
+                    {% for subject_data in subjects %}
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <h4 class="mb-0">{{ subject_data.subject.subject_name }}</h4>
+                        </div>
+                        <div class="card-body">
+                            {% for category in subject_data.grade_categories %}
+                            <div class="mb-4">
+                                <h5 class="border-bottom pb-2">{{ category.name }}</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-striped align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Score</th>
+                                                <th>Max Score</th>
+                                                <th>Percentage</th>
+                                                <th>Date</th>
+                                                <th>Remarks</th>
+                                                <th class="text-end">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for grade in category.grades %}
+                                            <tr>
+                                                <td>{{ grade.title }}</td>
+                                                <td>{{ grade.score }}</td>
+                                                <td>{{ grade.max_score }}</td>
+                                                <td>
+                                                    <span class="badge {% if grade.percentage >= 70 %}bg-success{% elif grade.percentage >= 60 %}bg-warning{% else %}bg-danger{% endif %}">
+                                                        {{ grade.percentage }}%
+                                                    </span>
+                                                </td>
+                                                <td>{{ grade.date_given }}</td>
+                                                <td>{{ grade.remarks }}</td>
+                                                <td class="text-end">
+                                                    <div class="btn-group">
+                                                        <a href="{% url 'main:grade_edit' grade.id %}" class="btn btn-sm btn-outline-primary" title="Edit Grade">
+                                                            <i class="fas fa-edit"></i>
+                                                        </a>
+                                                        <a href="{% url 'main:grade_delete' grade.id %}" class="btn btn-sm btn-outline-danger" title="Delete Grade">
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {% empty %}
+                                            <tr>
+                                                <td colspan="7" class="text-center py-4">
+                                                    <div class="text-muted">
+                                                        <i class="fas fa-graduation-cap fa-2x mb-3"></i>
+                                                        <p>No grades recorded for this category.</p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="text-center py-5">
+                        <div class="text-muted">
+                            <i class="fas fa-book fa-3x mb-3"></i>
+                            <p class="lead">No subjects enrolled.</p>
+                            <a href="{% url 'main:enrollment_create' %}" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Enroll in a Subject
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

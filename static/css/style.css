@@ -1,0 +1,42 @@
+/* Custom styles */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+.footer {
+    margin-top: auto;
+}
+
+/* Add more custom styles as needed */
+
+/* Apply colors to elements */
+.sidebar {
+    min-height: 100vh;
+    background-color: var(--primary); /* Dark green sidebar */
+    border-right: none; /* Remove testing border */
+    box-shadow: none; /* Remove testing shadow */
+    width: auto; /* Revert width */
+    display: block !important; /* Ensure sidebar is displayed as a block */
+}
+
+.sidebar .nav-link {
+    color: var(--text-light) !important; /* Ensure white text for visibility */
+    display: block !important; /* Ensure links are displayed as blocks */
+    width: 100% !important; /* Ensure links take full width */
+}
+
+.sidebar .nav-link:hover {
+    background-color: var(--secondary);
+    color: var(--text-light) !important;
+}
+
+.sidebar .nav-link.active {
+    background-color: var(--secondary);
+    color: var(--text-light) !important;
+} 

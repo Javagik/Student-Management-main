@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block breadcrumbs %}
+<li class="breadcrumb-item"><a href="{% url 'main:faculty_adviser_list' %}">Faculty Advisers</a></li>
+<li class="breadcrumb-item"><a href="{% url 'main:faculty_adviser_detail' adviser.pk %}">{{ adviser.name }}</a></li>
+<li class="breadcrumb-item active">Delete</li>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title mb-0">{{ title }}</h3>
+        </div>
+        <div class="card-body">
+            <p class="lead">Are you sure you want to delete faculty adviser: <strong>{{ adviser.name }}</strong>?</p>
+            <div class="alert alert-danger" role="alert">
+                <i class="fas fa-exclamation-triangle me-2"></i> Deleting this faculty adviser will unassign them from any advised students. This action cannot be undone.
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                <div class="d-flex justify-content-between mt-3">
+                    <button type="submit" class="btn btn-danger"><i class="fas fa-trash me-2"></i>Delete Adviser</button>
+                    <a href="{% url 'main:faculty_adviser_detail' adviser.pk %}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %} 

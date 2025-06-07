@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block breadcrumbs %}
+<li class="breadcrumb-item"><a href="{% url 'main:home' %}">Home</a></li>
+<li class="breadcrumb-item active">Faculty Advisers</li>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0"><i class="fas fa-chalkboard-teacher me-2"></i> {{ title }}</h1>
+        <a href="{% url 'main:faculty_adviser_create' %}" class="btn btn-primary"><i class="fas fa-plus"></i> Add Adviser</a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped align-middle">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
+                            <th>Office Location</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for adviser in advisers %}
+                        <tr>
+                            <td>{{ adviser.name }}</td>
+                            <td>{{ adviser.email }}</td>
+                            <td>{{ adviser.phone_number|default:"N/A" }}</td>
+                            <td>{{ adviser.office_location|default:"N/A" }}</td>
+                            <td class="text-end">
+                                <div class="btn-group">
+                                    <a href="{% url 'main:faculty_adviser_detail' adviser.pk %}" class="btn btn-sm btn-outline-info" title="View Adviser">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{% url 'main:faculty_adviser_update' adviser.pk %}" class="btn btn-sm btn-outline-warning" title="Edit Adviser">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{% url 'main:faculty_adviser_delete' adviser.pk %}" class="btn btn-sm btn-outline-danger" title="Delete Adviser">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center py-4">
+                                <div class="text-muted">
+                                    <i class="fas fa-chalkboard-teacher fa-2x mb-3"></i>
+                                    <p>No faculty advisers found.</p>
+                                    <a href="{% url 'main:faculty_adviser_create' %}" class="btn btn-primary">
+                                        <i class="fas fa-plus"></i> Add Faculty Adviser
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

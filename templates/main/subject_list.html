@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Subjects{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Subjects</h1>
+    <a href="{% url 'main:subject_create' %}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Add Subject
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Subject Code</th>
+                        <th>Subject Name</th>
+                        <th>Department</th>
+                        <th>Instructor</th>
+                        <th>Unit</th>
+                        <th>Capacity</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for subject in subjects %}
+                    <tr>
+                        <td>{{ subject.subject_code }}</td>
+                        <td>{{ subject.subject_name }}</td>
+                        <td>{{ subject.department|default:"N/A" }}</td>
+                        <td>{{ subject.instructor }}</td>
+                        <td>{{ subject.credits }}</td>
+                        <td>{{ subject.capacity }}</td>
+                        <td>
+                            <a href="{% url 'main:subject_detail' subject.pk %}" class="btn btn-sm btn-info">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{% url 'main:subject_update' subject.pk %}" class="btn btn-sm btn-warning">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="{% url 'main:subject_delete' subject.pk %}" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center">No subjects found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <!-- Welcome Section with Gradient -->
+    <div class="welcome-section mb-4">
+        <h1 class="display-4 fw-bold text-gradient">Student Management System</h1>
+        <p class="lead text-muted">Welcome to your administrative dashboard</p>
+        <div class="welcome-decoration"></div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="stat-card card h-100 border-0 shadow-sm">
+                <div class="card-body position-relative">
+                    <div class="stat-icon bg-primary-subtle">
+                        <i class="fas fa-user-graduate fa-2x text-primary"></i>
+                    </div>
+                    <h3 class="stat-number display-5 mb-0 fw-bold text-primary">{{ students_count }}</h3>
+                    <p class="stat-label text-muted mb-3">Total Students</p>
+                    <a href="{% url 'main:student_list' %}" class="btn btn-outline-primary btn-sm stretched-link">
+                        View Students <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card card h-100 border-0 shadow-sm">
+                <div class="card-body position-relative">
+                    <div class="stat-icon bg-success-subtle">
+                        <i class="fas fa-book fa-2x text-success"></i>
+                    </div>
+                    <h3 class="stat-number display-5 mb-0 fw-bold text-success">{{ subjects_count }}</h3>
+                    <p class="stat-label text-muted mb-3">Total Subjects</p>
+                    <a href="{% url 'main:subject_list' %}" class="btn btn-outline-success btn-sm stretched-link">
+                        View Subjects <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card card h-100 border-0 shadow-sm">
+                <div class="card-body position-relative">
+                    <div class="stat-icon bg-info-subtle">
+                        <i class="fas fa-clipboard-list fa-2x text-info"></i>
+                    </div>
+                    <h3 class="stat-number display-5 mb-0 fw-bold text-info">{{ enrollments_count }}</h3>
+                    <p class="stat-label text-muted mb-3">Total Enrollments</p>
+                    <a href="{% url 'main:enrollment_list' %}" class="btn btn-outline-info btn-sm stretched-link">
+                        View Enrollments <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions Section -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold mb-4">
+                        <i class="fas fa-bolt text-warning me-2"></i>Quick Actions
+                    </h5>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <a href="{% url 'main:student_create' %}" class="quick-action-card text-decoration-none">
+                                <div class="card h-100 border-0 bg-primary-subtle">
+                                    <div class="card-body d-flex align-items-center">
+                                        <i class="fas fa-user-plus fa-2x text-primary me-3"></i>
+                                        <div>
+                                            <h6 class="mb-0 fw-bold text-primary">Add New Student</h6>
+                                            <small class="text-muted">Register a new student</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="{% url 'main:subject_create' %}" class="quick-action-card text-decoration-none">
+                                <div class="card h-100 border-0 bg-success-subtle">
+                                    <div class="card-body d-flex align-items-center">
+                                        <i class="fas fa-book fa-2x text-success me-3"></i>
+                                        <div>
+                                            <h6 class="mb-0 fw-bold text-success">Add New Subject</h6>
+                                            <small class="text-muted">Create a new subject</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="{% url 'main:enrollment_create' %}" class="quick-action-card text-decoration-none">
+                                <div class="card h-100 border-0 bg-info-subtle">
+                                    <div class="card-body d-flex align-items-center">
+                                        <i class="fas fa-user-graduate fa-2x text-info me-3"></i>
+                                        <div>
+                                            <h6 class="mb-0 fw-bold text-info">Create Enrollment</h6>
+                                            <small class="text-muted">Enroll a student</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .dashboard-container {
+        padding: 2rem 0;
+    }
+
+    .welcome-section {
+        position: relative;
+        padding: 2rem;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 1rem;
+        overflow: hidden;
+    }
+
+    .text-gradient {
+        background: linear-gradient(45deg, #2c3e50, #3498db);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .welcome-decoration {
+        position: absolute;
+        right: -50px;
+        top: -50px;
+        width: 200px;
+        height: 200px;
+        background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(52, 152, 219, 0.05) 100%);
+        border-radius: 50%;
+        z-index: 0;
+    }
+
+    .stat-card {
+        transition: transform 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .stat-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin-bottom: 1rem;
+    }
+
+    .quick-action-card .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .quick-action-card:hover .card {
+        transform: translateY(-3px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+    }
+
+    .stat-label {
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+</style>
+{% endblock %} 

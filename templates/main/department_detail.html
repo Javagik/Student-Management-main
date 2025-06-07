@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block breadcrumbs %}
+<li class="breadcrumb-item"><a href="{% url 'main:home' %}">Home</a></li>
+<li class="breadcrumb-item"><a href="{% url 'main:department_list' %}">Departments</a></li>
+<li class="breadcrumb-item active">{{ department.name }}</li>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="fas fa-building me-2"></i> {{ department.name }}</h1>
+    <div>
+        <a href="{% url 'main:department_update' department.pk %}" class="btn btn-warning"><i class="fas fa-edit"></i> Edit Department</a>
+        <a href="{% url 'main:department_delete' department.pk %}" class="btn btn-danger"><i class="fas fa-trash"></i> Delete Department</a>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">Faculty Advisers in This Department</h5>
+    </div>
+    <div class="card-body">
+        {% if faculty_advisers %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Office Location</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for adviser in faculty_advisers %}
+                    <tr>
+                        <td>{{ adviser.name }}</td>
+                        <td>{{ adviser.email }}</td>
+                        <td>{{ adviser.phone_number|default:"N/A" }}</td>
+                        <td>{{ adviser.office_location|default:"N/A" }}</td>
+                        <td>
+                            <a href="{% url 'main:faculty_adviser_detail' adviser.pk %}" class="btn btn-sm btn-info">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p>No faculty advisers found in this department.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} 
