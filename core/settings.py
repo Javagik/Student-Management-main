@@ -28,11 +28,11 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'student-management-b6uw.onrender.com',
     'student-management-1-h6af.onrender.com',
-    'student-management-2-hr0i.onrender.com',  # <--- Add this line
+    'student-management-2-hr0i.onrender.com',
+    'student-management-main.onrender.com',  
     'localhost',
-    '127.0.0.1',
+    '127.0.0.1'
 ]
-
 
 
 # Application definition
