@@ -29,9 +29,10 @@ ALLOWED_HOSTS = [
     'student-management-b6uw.onrender.com',
     'student-management-1-h6af.onrender.com',
     'student-management-2-hr0i.onrender.com',
-    'student-management-main.onrender.com',  
+    'student-management-main.onrender.com',
+    'student-management-main-1.onrender.com', 
     'localhost',
-    '127.0.0.1'
+    '127.0.0.1',
 ]
 
 
