@@ -37,6 +37,9 @@ python manage.py createsuperuser
 6. Run the development server:
 ```bash
 python manage.py runserver
+
+username : admin
+password : adminpassword
 ```
 
 The application will be available at http://127.0.0.1:8000/
